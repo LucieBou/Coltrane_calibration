@@ -7,10 +7,6 @@ Create a .txt file of paramosomes
 @date: 2024/05/13
 """
 
-import sys
-
-sys.path.append('/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_multispecies_calibration')
-
 from latin_hypercube_sampling import latin_hypercube_sampling
 
 def params_file(number, storage_path):
