@@ -11,7 +11,7 @@ Coltrane Cost function for Monte-Carlo on Beluga
 
 import sys
 
-sys.path.append('/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_calibration/Coltrane_multispecies_calibration')
+sys.path.append('./model')
 
 
 from coltrane_params import coltrane_params

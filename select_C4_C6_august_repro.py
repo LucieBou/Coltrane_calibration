@@ -7,6 +7,10 @@ Select adults in august that reproduced
 @date: 2024/03/13
 """
 
+import sys
+
+sys.path.append('./model')
+
 from D_to_stage import D_to_stage
 from yearday import yearday
 import numpy as np

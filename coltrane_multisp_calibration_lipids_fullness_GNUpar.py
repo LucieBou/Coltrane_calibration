@@ -9,7 +9,7 @@ Coltrane lipids and fullness multisp calibration - GNU Parallel
 
 import sys
 
-sys.path.append('/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_calibration/Coltrane_multispecies_calibration')
+sys.path.append('./model')
 
 from coltrane_forcing import coltrane_forcing
 from coltrane_multiple_costs_function import coltrane_cost_function
