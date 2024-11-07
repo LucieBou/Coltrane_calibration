@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Select adults in august that reproduced
+Select adults that reproduced
 
 @author: Lucie Bourreau
-@date: 2024/03/13
+@date: 2024/11/07
 """
 
 import sys
@@ -16,7 +16,7 @@ from yearday import yearday
 import numpy as np
 import copy
 
-def select_C4_C6_august_repro(popts, pop):
+def select_C4_C6_repro(popts, pop):
     """
     Select individuals of stage C4 to C6 in August that reproduced (i.e., tEcen not nan)
     by adding a mask key in popts and pop.
@@ -24,7 +24,7 @@ def select_C4_C6_august_repro(popts, pop):
     
     0 --> individuals that has not reproduced
     1 --> individuals that reproduced
-    2 --> individuals that reproduced and were adults in august
+    2 --> individuals that reproduced and became C4, C5 or adults
 
     Parameters
     ----------
@@ -41,33 +41,20 @@ def select_C4_C6_august_repro(popts, pop):
         Metrics as in pop with a new key called 'mask'.
 
     """
-    
-    ### Initialize the mask with zeros
-    mask_popts = np.zeros_like(popts['D'])
-    
-    ### Identify which compupods reproduced (i.e., tEcen is not nan)
-    reproduced = np.where(~np.isnan(pop['tEcen']))
-    
-    ### Update the mask to have 1 for individuals that reproduced
-    mask_popts[:, reproduced[0], reproduced[1]] = 1
-    
-    ### Select the adults individual in august
-    # Compute the development stage
-    popts['stage'] = np.zeros_like(popts['D'])
+    ### Create the mask
+    mask_popts = np.zeros_like(popts['D']) # Initialize the mask with zeros
+    reproduced = np.where(~np.isnan(pop['tEcen'])) # Identify which compupods reproduced (i.e., tEcen is not nan)
+    mask_popts[:, reproduced[0], reproduced[1]] = 1 # Update the mask to have 1 for individuals that reproduced
+
+    popts['stage'] = np.zeros_like(popts['D']) # Add a new key to popts to have the stage
     for i in range(0,popts['D'].shape[2]):
-        popts['stage'][:,:,i] = D_to_stage(popts['D'][:,:,i])
-    
-    # Identify the august days
-    daysofyear = yearday(popts['t'][:,0,0])
-    august = np.where((daysofyear >= 220) & (daysofyear <= 250))
-    
-    # Identify the C4 to C6 individuals in August
-    adults_august = np.zeros_like(popts['D'])
+        popts['stage'][:,:,i] = D_to_stage(popts['D'][:,:,i]) # Fill this new key
+
+    C4_C6_stage = np.zeros_like(popts['D'])
     for i in range(0,popts['D'].shape[2]):
-        adults_august[august,:,i] = np.where(popts['stage'][august,:,i] >= 11, 1, 0)
-    
-    ### Update the mask to have 2 for individuals that were adults in august and have reproduced
-    mask_popts[(adults_august == 1) & (mask_popts == 1)] = 2
+        C4_C6_stage[:,:,i] = np.where(popts['stage'][:,:,i] >= 11, 1, 0) # Identify the individuals of stage C4 to adults
+
+    mask_popts[(C4_C6_stage == 1) & (mask_popts == 1)] = 2 # 1 if they reproduced, 2 if they reproduced and are C4, C5 or adults
     
     ### Add the new key to popts
     select_popts = copy.deepcopy(popts)
@@ -78,6 +65,5 @@ def select_C4_C6_august_repro(popts, pop):
     
     select_pop = copy.deepcopy(pop)
     select_pop['mask'] = mask_pop
-    
-    return select_popts, select_pop
 
+    return select_popts, select_pop

@@ -64,6 +64,10 @@ def coltrane_cost_function(params, forcing, obs):
 
     C4_C6_stage = np.zeros_like(popts['D'])
     for i in range(0,popts['D'].shape[2]):
-        C4_C6_stage[:,:,i] = np.where(popts['stage'][:,:,i] >= 11, 1, 0)
+        C4_C6_stage[:,:,i] = np.where(popts['stage'][:,:,i] >= 11, 1, 0) # Identify the individuals of stage C4 to adults
+
+    mask_popts[(C4_C6_stage == 1) & (mask_popts == 1)] = 2 # 1 if they reproduced, 2 if they reproduced and are C4, C5 or adults
+    
+    
     
 
