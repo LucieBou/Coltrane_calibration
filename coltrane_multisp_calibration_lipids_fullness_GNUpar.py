@@ -20,10 +20,10 @@ import pickle
 from datetime import datetime
 
 
-def coltrane_cost_function_wrapper(params, trait, forcing, obs):
+def coltrane_cost_function_wrapper(params, forcing, obs):
     
     try:
-        out = coltrane_cost_function(params, trait, forcing, obs)
+        out = coltrane_cost_function(params, forcing, obs)
         
     except Exception as e:
         out = {'cost': None, 
@@ -105,7 +105,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
                 }
     
 
-    result = coltrane_cost_function_wrapper(params=params, trait='R_and_fullness', forcing=forcing, obs=obs)
+    result = coltrane_cost_function_wrapper(params=params, forcing=forcing, obs=obs)
     for key, value in result.items():
         outputs[key].append(value)
         
