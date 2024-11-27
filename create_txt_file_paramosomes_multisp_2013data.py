@@ -4,7 +4,7 @@
 Create a .txt file of paramosomes
 
 @author: Lucie Bourreau
-@date: 2024/05/13
+@date: 2024/05/21
 """
 
 from latin_hypercube_sampling import latin_hypercube_sampling
@@ -32,7 +32,9 @@ def params_file(number, storage_path):
         'I0': (0.3, 0.5),
         'Ks': (0.5, 1.5),
         'maxReserveFrac': (0.5, 1),
-        'rm': (0.05, 0.25)
+        'rm': (0.05, 0.25),
+        'tdia_exit': (80, 120),
+        'tdia_enter': (250, 300)
     }
     
     param_sets = latin_hypercube_sampling(number, param_bounds)
@@ -41,12 +43,12 @@ def params_file(number, storage_path):
     # Replicate the parameters list as many times as there are species to calibrate
     
     species = ['C. glacialis', 'C. hyperboreus', 'M. longa']
-    dev_rates = [0.007, 0.005, 0.009]
+    dev_rates = [0.007, 0.006, 0.009]
     
     with open(f"{storage_path}/multisp_parameters_2013data.txt", "w") as fichier:
-    
+        
         for species_item, dev_rate_item in zip(species, dev_rates):
-            
+
             for paramosome in param_values_list:
                 
                 paramosome['species'] = species_item
