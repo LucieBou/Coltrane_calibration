@@ -16,7 +16,6 @@ sys.path.append('./model')
 from coltrane_params import coltrane_params
 from coltrane_population import coltrane_population
 from cost_function import cost_function
-from D_to_stage import D_to_stage
 from select_C4_C6_repro import select_C4_C6_repro
 from yearday import yearday
 
@@ -112,11 +111,11 @@ def coltrane_cost_function(params, forcing, obs):
             #### Compute the costs
 
             # Lipids
-            cost_lip, obs_interp_lip, mod_interp_lip, bins_lip = cost_function(obs['lipids'], mean_reserves_lip_all[~np.isnan(mean_reserves_lip_all)])
+            cost_lip, obs_interp_lip, mod_interp_lip, bins_lip = cost_function(obs['apsilon_total_lipids'], mean_reserves_lip_all[~np.isnan(mean_reserves_lip_all)])
 
             # Fulness
             mod_fullness = mean_reserves_all/mean_weight_all
-            cost_full, obs_interp_full, mod_interp_full, bins_full = cost_function(obs['fullness'], mod_fullness[~np.isnan(mod_fullness)])
+            cost_full, obs_interp_full, mod_interp_full, bins_full = cost_function(obs['fullness_ratio'], mod_fullness[~np.isnan(mod_fullness)])
 
             #### Fitness weighted distributions
             fitness = np.where(adults_repro_popshape, select_pop['F2'], np.nan)
@@ -124,22 +123,22 @@ def coltrane_cost_function(params, forcing, obs):
             
             # Lipids
             mean_reserves_lip_wgt_all = np.column_stack((mean_reserves_lip_all, fitness_all)) 
-            cost_lip_wgt, obs_interp_lip, mod_interp_lip_wgt, bins_lip_wgt = cost_function(obs['lipids'], mean_reserves_lip_wgt_all)
+            cost_lip_wgt, obs_interp_lip, mod_interp_lip_wgt, bins_lip_wgt = cost_function(obs['apsilon_total_lipids'], mean_reserves_lip_wgt_all)
             
             # Fullness
             mod_fullness_wgt = np.column_stack((mod_fullness, fitness_all))
-            cost_full_wgt, obs_interp_full, mod_interp_full_wgt, bins_full_wgt = cost_function(obs['fullness'], mod_fullness_wgt)
+            cost_full_wgt, obs_interp_full, mod_interp_full_wgt, bins_full_wgt = cost_function(obs['fullness_ratio'], mod_fullness_wgt)
             
             #### Median
             
             # Lipids
-            med_lip_obs = np.nanmedian(obs['lipids'])
+            med_lip_obs = np.nanmedian(obs['apsilon_total_lipids'])
             med_reserves = np.nanmedian(mean_reserves_lip_all)
             
             cost_lip_med = np.mean((med_reserves - med_lip_obs) ** 2)
             
             # Fullness
-            med_full_obs = np.nanmedian(obs['fullness'])
+            med_full_obs = np.nanmedian(obs['fullness_ratio'])
             med_full = np.nanmedian(mod_fullness)
             
             cost_full_med = np.mean((med_full - med_full_obs) ** 2)
