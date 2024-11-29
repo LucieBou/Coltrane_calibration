@@ -31,7 +31,8 @@ def coltrane_cost_function_wrapper(params, forcing, obs):
                'mod_interp': None,
                'obs_interp': None,
                'bins': None, 
-               'mask': 'error'}
+               'mask': 'error',
+               'month': None}
         
         print(f"An error occurred in coltrane_cost_function: {e}")
     
@@ -100,7 +101,8 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
                 'bins': [],
                 'running_time': None,
                 'mask': [],
-                'species': None
+                'species': None,
+                'month': []
                 }
     
 
@@ -117,7 +119,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     outputs['species'] = species
 
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f') # The name of the folder will contain the time
-    file_path = f'{file_path}/pickle_files/coltrane_multisp_lipids_fullness_calibration_{timestamp}.pkl'
+    file_path = f'{file_path}/pickle_files/coltrane_multisp_lipids_fullness_calibration_2015data_{timestamp}.pkl'
 
     with open(file_path, 'wb') as file:
         pickle.dump(outputs, file)
@@ -127,11 +129,6 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
 if __name__ == '__main__':
     print('Enter inside optimisation')
     # To test
-    run_calibration(0.3839, 0.9297, 0.6914, 0.091, 80, 290,"Calanus glacialis", 0.006, "/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_multispecies_calibration_2015data")
+    #run_calibration(0.3839, 0.9297, 0.6914, 0.091, 80, 290,"Calanus glacialis", 0.006, "/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_multispecies_calibration_2015data")
     # To run with a shell file in parallel
-    # run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9])
-
-    
-    
-
-
+    run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9])
