@@ -73,7 +73,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     """
     
     ## Load the forcing to run Coltrane
-    forcing = coltrane_forcing("BB", 5)
+    forcing = coltrane_forcing("Qik_obs_2015", 5)
 
     ## Load the observations to compare with Coltrane
     obs_all = pd.read_csv(f"{file_path}/prosome_lipid_segmentation_measures-20241122_metadata_filter_noMetridia_C4andmore.csv")
