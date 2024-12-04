@@ -33,8 +33,8 @@ def params_file(number, storage_path):
         'Ks': (0.5, 1.5),
         'maxReserveFrac': (0.5, 1),
         'rm': (0.05, 0.25),
-        'tdia_exit': (80, 120),
-        'tdia_enter': (250, 300)
+        'tdia_exit': (90, 170),
+        'tdia_enter': (215, 335)
     }
     
     param_sets = latin_hypercube_sampling(number, param_bounds)
