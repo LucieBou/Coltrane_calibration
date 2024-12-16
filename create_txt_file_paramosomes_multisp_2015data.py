@@ -30,11 +30,11 @@ def params_file(number, storage_path):
     # Create the paramosomes
     param_bounds = {
         'I0': (0.3, 0.5),
-        'Ks': (0.5, 1.5),
+        'Ks': (0.05, 1),
         'maxReserveFrac': (0.5, 1),
         'rm': (0.05, 0.25),
-        'tdia_exit': (90, 170),
-        'tdia_enter': (215, 335)
+        'tdia_exit': (90, 200),
+        'tdia_enter': (200, 365)
     }
     
     param_sets = latin_hypercube_sampling(number, param_bounds)
