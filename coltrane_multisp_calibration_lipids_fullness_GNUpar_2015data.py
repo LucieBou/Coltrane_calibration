@@ -73,7 +73,8 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     """
     
     ## Load the forcing to run Coltrane
-    forcing = coltrane_forcing("Qik_mod_2015", 5)
+    forcing_type = "Qik_obs_2015"
+    forcing = coltrane_forcing(forcing_type, 5)
 
     ## Load the observations to compare with Coltrane
     obs_all = pd.read_csv(f"{file_path}/prosome_lipid_segmentation_measures-20241122_metadata_filter_noMetridia_C4andmore.csv")
@@ -102,7 +103,8 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
                 'running_time': None,
                 'mask': [],
                 'species': None,
-                'month': []
+                'month': [],
+                'forcing': None
                 }
     
 
@@ -117,6 +119,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     
     outputs['running_time'] = running_time
     outputs['species'] = species
+    outputs['forcing'] = forcing_type
 
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f') # The name of the folder will contain the time
     file_path = f'{file_path}/pickle_files/coltrane_multisp_lipids_fullness_calibration_2015data_{timestamp}.pkl'
