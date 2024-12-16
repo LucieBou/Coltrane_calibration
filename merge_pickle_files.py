@@ -38,7 +38,8 @@ def merge_pickle_files(input_files_path, output_file_path, output_file_name):
                      'running_time': [],
                      'mask': [],
                      'species': [],
-                     'month': []
+                     'month': [],
+                     'forcing': []
                      }
 
     # Iterate over files in the folder
