@@ -38,7 +38,7 @@ def coltrane_cost_function_wrapper(params, forcing, obs):
     
     return out
 
-def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, u0, file_path):
+def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, u0, file_path, forcing_region):
     """
     Run the "calibration" that mostly consist of computing a cost between the 
     observed and the modeled traits distributions for a given vector of parameters.
@@ -73,8 +73,9 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     """
     
     ## Load the forcing to run Coltrane
-    forcing_type = "BB"
-    forcing = coltrane_forcing(forcing_type, 5)
+    
+    print("\nForcing region:",forcing_region)
+    forcing = coltrane_forcing(forcing_region, 5)
 
     ## Load the observations to compare with Coltrane
     obs_all = pd.read_csv(f"{file_path}/prosome_lipid_segmentation_measures-20241122_metadata_filter_noMetridia_C4andmore.csv")
