@@ -73,7 +73,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     """
     
     ## Load the forcing to run Coltrane
-    forcing_type = "Qik_obs_2015"
+    forcing_type = "BB"
     forcing = coltrane_forcing(forcing_type, 5)
 
     ## Load the observations to compare with Coltrane
