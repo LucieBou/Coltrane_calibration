@@ -120,7 +120,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     
     outputs['running_time'] = running_time
     outputs['species'] = species
-    outputs['forcing'] = forcing_type
+    outputs['forcing'] = forcing_region
 
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f') # The name of the folder will contain the time
     file_path = f'{file_path}/pickle_files/coltrane_multisp_lipids_fullness_calibration_2015data_{timestamp}.pkl'
