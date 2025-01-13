@@ -135,4 +135,4 @@ if __name__ == '__main__':
     # To test
     #run_calibration(0.3839, 0.9297, 0.6914, 0.091, 80, 290,"Calanus glacialis", 0.006, "/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_multispecies_calibration_2015data")
     # To run with a shell file in parallel
-    run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9])
+    run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9], sys.argv[10])
