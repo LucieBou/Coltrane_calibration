@@ -33,7 +33,7 @@ def params_file(number, storage_path, output_name):
         'Ks': (0.3, 1.3),
         'maxReserveFrac': (0.5, 1),
         'rm': (0.05, 0.25),
-        'tdia_exit': (90, 200),
+        'tdia_exit': (60, 225),
         'tdia_enter': (200, 365)
     }
     
