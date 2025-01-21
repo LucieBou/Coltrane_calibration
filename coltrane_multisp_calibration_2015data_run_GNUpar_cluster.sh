@@ -1,4 +1,4 @@
-    #!/bin/bash
+#!/bin/bash
 
 # -----------------------------------
 # SLURM script - Coltrane Calibration
