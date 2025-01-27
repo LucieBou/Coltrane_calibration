@@ -1,3 +1,3 @@
 [submodule "model"]
 	path = model
-	url = https://github.com/LucieBou/Coltrane_python.git
+	url = git@github.com:LucieBou/Coltrane_python.git
