@@ -1,3 +1,6 @@
+joblib==1.4.0+computecanada
+memory-profiler==0.52.0+computecanada
+scikit_learn==1.3.1+computecanada
 pyDOE==0.3.8+computecanada
 pyDOE2==1.3.0+computecanada
 tqdm==4.66.2+computecanada
