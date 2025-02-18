@@ -37,7 +37,7 @@ def coltrane_cost_function_wrapper(params, forcing, obs):
     
     return out
 
-def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, u0, file_path):
+def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, u0, file_path, obs_data):
     """
     Run the "calibration" that mostly consist of computing a cost between the 
     observed and the modeled traits distributions for a given vector of parameters.
@@ -72,13 +72,13 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     """
     
     ## Load the forcing to run Coltrane
-    forcing = coltrane_forcing("NOW", 5)
+    forcing = coltrane_forcing("NOW", 7)
 
     ## Load the observations to compare with Coltrane
-    obs_all = pd.read_csv(f"{file_path}/copepod_lipids.csv")
-    obs_without_MLC5 = obs_all[obs_all['pred'] != 'M. longa C5']
-    obs_species = obs_without_MLC5[obs_without_MLC5['spec'] == species]
-    obs = obs_species[['totallipid', 'fullnessratio']]
+    obs_all = pd.read_csv(f"{file_path}/{obs_data}")
+    obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False)]
+    obs = obs_species[['total_lipids_mg', 'fullness_ratio_ugC_Forest']]
+    obs = obs.loc[obs["fullness_ratio_ugC_Forest"] <= 1] # Keep only the values below 1
 
     ## Parameters
     params = {
@@ -129,9 +129,9 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
 if __name__ == '__main__':
     print('Enter inside optimisation')
     # To test
-    run_calibration(0.39392328334701276, 0.8498392303370423, 0.7962040794882776, 0.16201464653836029, 90, 250,"C. glacialis", 0.007, "/Users/")
+    # run_calibration(0.39392328334701276, 0.8498392303370423, 0.7962040794882776, 0.16201464653836029, 90, 250,"C. glacialis", 0.007, "/Users/", "merged_LOKI2013_ecotaxa_masks_lack244masks_no2profiles_features.csv")
     # To run with a shell file in parallel
-    # run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9])
+    run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9], sys.argv[10])
 
     
     
