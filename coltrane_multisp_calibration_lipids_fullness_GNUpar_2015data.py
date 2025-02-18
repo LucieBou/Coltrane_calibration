@@ -38,7 +38,7 @@ def coltrane_cost_function_wrapper(params, forcing, obs):
     
     return out
 
-def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, u0, file_path, forcing_region):
+def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, u0, file_path, forcing_region, obs_data):
     """
     Run the "calibration" that mostly consist of computing a cost between the 
     observed and the modeled traits distributions for a given vector of parameters.
@@ -78,7 +78,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     forcing = coltrane_forcing(forcing_region, 7)
 
     ## Load the observations to compare with Coltrane
-    obs_all = pd.read_csv(f"{file_path}/prosome_lipid_segmentation_measures-20241122_metadata_filter_noMetridia_C4andmore.csv")
+    obs_all = pd.read_csv(f"{file_path}/{obs_data}")
 
     obs_species = obs_all[obs_all['species'] == species]
 
@@ -135,4 +135,4 @@ if __name__ == '__main__':
     # To test
     #run_calibration(0.3839, 0.9297, 0.6914, 0.091, 80, 290,"Calanus glacialis", 0.006, "/Users/luciebourreau/Library/CloudStorage/OneDrive-UniversitéLaval/PhD_ULaval/Coltrane/Coltrane_multispecies_calibration_2015data")
     # To run with a shell file in parallel
-    run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9], sys.argv[10])
+    run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[7], float(sys.argv[8]), sys.argv[9], sys.argv[10], sys.argv[11])
