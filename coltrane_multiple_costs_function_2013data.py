@@ -65,8 +65,8 @@ def coltrane_cost_function(params, forcing, obs):
         
         adults_august_repro_mean_reserves = np.nanmean(adults_august_repro_reserves, axis=0)
 
-        # Transform those reserves from carbon to lipids to match the observations (i.e., mg lip/cop)
-        adults_august_repro_mean_reserves_tranf = adults_august_repro_mean_reserves / (0.9 * 1000)
+        # # Transform those reserves from carbon to lipids to match the observations (i.e., mg lip/cop)
+        # adults_august_repro_mean_reserves_tranf = adults_august_repro_mean_reserves / (0.9 * 1000)
 
         ## Weight
         adults_august_repro_weight = select_popts['W'].copy()
@@ -75,19 +75,19 @@ def coltrane_cost_function(params, forcing, obs):
         adults_august_repro_mean_weight = np.nanmean(adults_august_repro_weight, axis=0)
         
         ### Flatten those values to disregard the strategies and only have a distribution
-        adults_august_repro_mean_reserves_tranf_all = np.concatenate(adults_august_repro_mean_reserves_tranf)
+        # adults_august_repro_mean_reserves_tranf_all = np.concatenate(adults_august_repro_mean_reserves_tranf)
         adults_august_repro_mean_reserves_all = np.concatenate(adults_august_repro_mean_reserves)
         adults_august_repro_mean_weight_all = np.concatenate(adults_august_repro_mean_weight)
         
         ### Compute the costs
         
         ## Raw distributions
-        mod_reserves_trans = adults_august_repro_mean_reserves_tranf_all.copy()
+        # mod_reserves_trans = adults_august_repro_mean_reserves_tranf_all.copy()
         mod_reserves = adults_august_repro_mean_reserves_all.copy()
         mod_weight = adults_august_repro_mean_weight_all.copy()
         
         # Lipids
-        cost_lip, obs_interp_lip, mod_interp_lip, bins_lip = cost_function(obs["total_lipids_mg"], mod_reserves_trans[~np.isnan(mod_reserves_trans)])
+        cost_lip, obs_interp_lip, mod_interp_lip, bins_lip = cost_function(obs["total_lipids_ugC"], mod_reserves[~np.isnan(mod_reserves)])
         
         # Fullness
         mod_fullness = mod_reserves/mod_weight
@@ -103,9 +103,9 @@ def coltrane_cost_function(params, forcing, obs):
         
         # Lipids
         
-        adults_august_repro_mean_reserves_tranf_wgt_all = np.column_stack((adults_august_repro_mean_reserves_tranf_all, adults_august_repro_fitness_all))
+        adults_august_repro_mean_reserves_wgt_all = np.column_stack((adults_august_repro_mean_reserves_all, adults_august_repro_fitness_all))
         
-        cost_lip_wgt, obs_interp_lip, mod_interp_lip_wgt, bins_lip_wgt = cost_function(obs["total_lipids_mg"], adults_august_repro_mean_reserves_tranf_wgt_all)
+        cost_lip_wgt, obs_interp_lip, mod_interp_lip_wgt, bins_lip_wgt = cost_function(obs["total_lipids_ugC"], adults_august_repro_mean_reserves_wgt_all)
         
         # Fullness
         # adults_august_repro_mean_weight_wgt = adults_august_repro_mean_weight * adults_august_repro_fitness
@@ -119,7 +119,7 @@ def coltrane_cost_function(params, forcing, obs):
         
         # Lipids
         med_lip_obs = np.nanmedian(obs["total_lipids_mg"])
-        med_reserves = np.nanmedian(adults_august_repro_mean_reserves_tranf_all)
+        med_reserves = np.nanmedian(adults_august_repro_mean_reserves_all)
         
         cost_lip_med = np.mean((med_reserves - med_lip_obs) ** 2)
         

@@ -95,8 +95,8 @@ def coltrane_cost_function(params, forcing, obs):
             # Compute the mean over the month for each compupod at each strategy
             mean_reserves = np.nanmean(reserves, axis=0)
 
-            # Transform those reserves from carbon to lipids to match the observations (i.e., mg lip/cop) (Maps et al., 2014 - Tarling et al., 2022)
-            mean_reserves_lip = mean_reserves / (0.9 * 1000)
+            # # Transform those reserves from carbon to lipids to match the observations (i.e., mg lip/cop) (Maps et al., 2014 - Tarling et al., 2022)
+            # mean_reserves_lip = mean_reserves / (0.9 * 1000)
 
             #### Weight
             select_popts_W_m = select_popts['W'][months == m, :, :]
@@ -105,13 +105,13 @@ def coltrane_cost_function(params, forcing, obs):
 
             #### Flatten those values to disregard the strategies and only have a distribution
             mean_reserves_all = np.concatenate(mean_reserves)
-            mean_reserves_lip_all = np.concatenate(mean_reserves_lip)
+            # mean_reserves_lip_all = np.concatenate(mean_reserves_lip)
             mean_weight_all = np.concatenate(mean_weight)
 
             #### Compute the costs
 
             # Lipids
-            cost_lip, obs_interp_lip, mod_interp_lip, bins_lip = cost_function(obs['apsilon_total_lipids_mg'][obs['month'] == m], mean_reserves_lip_all[~np.isnan(mean_reserves_lip_all)])
+            cost_lip, obs_interp_lip, mod_interp_lip, bins_lip = cost_function(obs['apsilon_total_lipids_ugC'][obs['month'] == m], mean_reserves_all[~np.isnan(mean_reserves_all)])
 
             # Fulness
             mod_fullness = mean_reserves_all/mean_weight_all
@@ -122,8 +122,8 @@ def coltrane_cost_function(params, forcing, obs):
             fitness_all = np.concatenate(fitness)
             
             # Lipids
-            mean_reserves_lip_wgt_all = np.column_stack((mean_reserves_lip_all, fitness_all)) 
-            cost_lip_wgt, obs_interp_lip, mod_interp_lip_wgt, bins_lip_wgt = cost_function(obs['apsilon_total_lipids_mg'][obs['month'] == m], mean_reserves_lip_wgt_all)
+            mean_reserves_wgt_all = np.column_stack((mean_reserves_all, fitness_all)) 
+            cost_lip_wgt, obs_interp_lip, mod_interp_lip_wgt, bins_lip_wgt = cost_function(obs['apsilon_total_lipids_ugC'][obs['month'] == m], mean_reserves_wgt_all)
             
             # Fullness
             mod_fullness_wgt = np.column_stack((mod_fullness, fitness_all))
@@ -132,8 +132,8 @@ def coltrane_cost_function(params, forcing, obs):
             #### Median
             
             # Lipids
-            med_lip_obs = np.nanmedian(obs['apsilon_total_lipids_mg'])
-            med_reserves = np.nanmedian(mean_reserves_lip_all)
+            med_lip_obs = np.nanmedian(obs['apsilon_total_lipids_ugC'])
+            med_reserves = np.nanmedian(mean_reserves_all)
             
             cost_lip_med = np.mean((med_reserves - med_lip_obs) ** 2)
             
