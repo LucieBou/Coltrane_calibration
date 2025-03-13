@@ -77,8 +77,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     ## Load the observations to compare with Coltrane
     obs_all = pd.read_csv(f"{file_path}/{obs_data}")
     obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False)]
-    obs = obs_species[['total_lipids_ugC', 'fullness_ratio_ugC_Forest']]
-    obs = obs.loc[obs["fullness_ratio_ugC_Forest"] <= 1] # Keep only the values below 1
+    obs = obs_species[['total_lipids_ugC', 'fullness_ratio_carbon_volume']]
 
     ## Parameters
     params = {

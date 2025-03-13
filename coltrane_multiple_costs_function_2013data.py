@@ -91,7 +91,7 @@ def coltrane_cost_function(params, forcing, obs):
         
         # Fullness
         mod_fullness = mod_reserves/mod_weight
-        cost_full, obs_interp_full, mod_interp_full, bins_full = cost_function(obs["fullness_ratio_ugC_Forest"], mod_fullness[~np.isnan(mod_fullness)])
+        cost_full, obs_interp_full, mod_interp_full, bins_full = cost_function(obs["fullness_ratio_carbon_volume"], mod_fullness[~np.isnan(mod_fullness)])
         
         ## Fitness weighted distributions
         
@@ -114,7 +114,7 @@ def coltrane_cost_function(params, forcing, obs):
         # mod_fullness_wgt = adults_august_repro_mean_reserves_tranf_wgt_all / adults_august_repro_mean_weight_wgt_all
         
         mod_fullness_wgt = np.column_stack((mod_fullness, adults_august_repro_fitness_all))
-        cost_full_wgt, obs_interp_full, mod_interp_full_wgt, bins_full_wgt = cost_function(obs["fullness_ratio_ugC_Forest"], mod_fullness_wgt)
+        cost_full_wgt, obs_interp_full, mod_interp_full_wgt, bins_full_wgt = cost_function(obs["fullness_ratio_carbon_volume"], mod_fullness_wgt)
         ## Median
         
         # Lipids
@@ -124,7 +124,7 @@ def coltrane_cost_function(params, forcing, obs):
         cost_lip_med = np.mean((med_reserves - med_lip_obs) ** 2)
         
         # Fullness
-        med_full_obs = np.nanmedian(obs["fullness_ratio_ugC_Forest"])
+        med_full_obs = np.nanmedian(obs["fullness_ratio_carbon_volume"])
         med_full = np.nanmedian(mod_fullness)
         
         cost_full_med = np.mean((med_full - med_full_obs) ** 2)
