@@ -4,14 +4,14 @@
 # SLURM script - Coltrane Calibration
 # -----------------------------------
 
-#SBATCH --time=12:00:00
+#SBATCH --time=15:00:00
 #SBATCH --account=def-frmap5
 #SBATCH --job-name=coltrane_calibration
 #SBATCH --partition=bigmem
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lucie.bourreau.1@ulaval.ca
 #SBATCH --cpus-per-task=32
-#SBATCH --mem-per-cpu=16G
+#SBATCH --mem-per-cpu=20G
 #SBATCH -o slurm-mem-%j.out
 #SBATCH -e slurm-mem-%j.err
 
