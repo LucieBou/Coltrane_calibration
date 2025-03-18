@@ -128,11 +128,6 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
 if __name__ == '__main__':
     print('Enter inside optimisation')
     # To test
-    # run_calibration(0.39392328334701276, 0.8498392303370423, 0.7962040794882776, 0.16201464653836029, 90, 250,"C. glacialis", 0.007, "/Users/", "merged_LOKI2013_ecotaxa_masks_lack244masks_no2profiles_features.csv")
+    #run_calibration(0.39392328334701276, 0.8498392303370423, 0.7962040794882776, 0.16201464653836029, 90, 250,"C. glacialis", 0.007, "./", "merged_LOKI2013_ecotaxa_masks_features_for_calibration.csv")
     # To run with a shell file in parallel
     run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[8], float(sys.argv[7]), sys.argv[9], sys.argv[10])
-
-    
-    
-
-
