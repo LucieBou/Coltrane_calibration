@@ -118,7 +118,7 @@ def coltrane_cost_function(params, forcing, obs):
         ## Median
         
         # Lipids
-        med_lip_obs = np.nanmedian(obs["total_lipids_mg"])
+        med_lip_obs = np.nanmedian(obs["total_lipids_ugC"])
         med_reserves = np.nanmedian(adults_august_repro_mean_reserves_all)
         
         cost_lip_med = np.mean((med_reserves - med_lip_obs) ** 2)
