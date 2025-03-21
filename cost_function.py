@@ -49,7 +49,10 @@ def cost_function(obs, mod):
         if dim_mod == 1:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, bins=10, range=(min_obs, max_obs), density=True)
-            mod_hist, mod_bins = np.histogram(mod.clip(min=min_obs, max=max_obs), bins=10, range=(min_obs, max_obs), density=True)
+            mod_hist, mod_bins = np.histogram(mod.clip(min=min_obs, max=max_obs), 
+                                              bins=10, 
+                                              range=(min_obs, max_obs), 
+                                              density=True)
             
             # Interpolate both histograms
             obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
@@ -76,11 +79,15 @@ def cost_function(obs, mod):
         if dim_mod == 1:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, 
-                                              bins=15,
+                                              bins=30,
                                               #bins=int(range_obs/100), 
                                               range=(min_obs, max_obs), 
                                               density=True)
-            mod_hist, mod_bins = np.histogram(mod.clip(min=min_obs, max=max_obs), bins=int(range_obs/0.2), range=(min_obs, max_obs), density=True)
+            mod_hist, mod_bins = np.histogram(mod.clip(min=min_obs, max=max_obs), 
+                                              bins=30,
+                                              #bins=int(range_obs/0.2), 
+                                              range=(min_obs, max_obs), 
+                                              density=True)
             
             # Interpolate both histograms
             obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
@@ -91,12 +98,13 @@ def cost_function(obs, mod):
         else:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, 
-                                              bins=15,
+                                              bins=30,
                                               #bins=int(range_obs/100), 
                                               range=(min_obs, max_obs), 
                                               density=True)
             mod_hist, mod_bins = np.histogram(np.clip(mod[:,0],a_min=min_obs, a_max=max_obs), 
-                                              bins=int(range_obs/0.2), 
+                                              bins=30,
+                                              #bins=int(range_obs/0.2), 
                                               range=(min_obs, max_obs), 
                                               density=True,
                                               weights=mod[:,1])
@@ -115,3 +123,13 @@ def cost_function(obs, mod):
     
     return cost, obs_interp, mod_interp, bins
 
+# import matplotlib.pyplot as plt
+
+# plt.hist(obs, bins=obs_bins, density=True, alpha=0.5, label='Stand Obs')
+# plt.hist(mod.clip(min=min_obs, max=max_obs), bins=mod_bins, density=True, alpha=0.5, label='Stand Mod')
+# plt.plot(obs_bins[:-1], obs_interp, 'b--', label='Interp Obs')
+# plt.plot(mod_bins[:-1], mod_interp, 'r--', label='Interp Model')
+# plt.xlabel("Trait")
+# plt.ylabel("Density")
+# plt.legend(frameon = False)
+# plt.show()
