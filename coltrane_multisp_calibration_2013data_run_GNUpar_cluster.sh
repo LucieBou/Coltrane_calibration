@@ -26,6 +26,6 @@ echo "Starting task"
 
 parallel -j $SLURM_CPUS_PER_TASK --colsep ',' python -u coltrane_multisp_calibration_lipids_fullness_GNUpar_2013data.py {1} {2} {3} {4} {5} {6} {7} {8} "./" "merged_LOKI2013_ecotaxa_masks_features_for_calibration.csv" :::: ./multisp_parameters_2013data_u0var_8000.txt
 
-python -u merge_pickle_files_2013data.py "./pickle_files/" "./" "merged_files_cluster_2013data_7Y_dtspawn15_u0var_8000sets.pkl"
+python -u merge_pickle_files_2013data.py "./pickle_files/" "./" "merged_files_cluster_2013data_7Y_dtspawn15_NOWArdyna_u0var_8000sets.pkl"
 
 echo "Task done"
