@@ -16,6 +16,8 @@ import numpy as np
 def cost_function(obs, mod):
     """
     Compute a cost between two distributions.
+    Penalized the cost for the lipids (max_obs > 1) if the model 
+    give higher or lower values than the observations.
 
     Parameters
     ----------
@@ -44,7 +46,7 @@ def cost_function(obs, mod):
     
     dim_mod = len(np.shape(mod))
     
-    if max_obs < 1:
+    if max_obs < 1: # Fullness
         
         if dim_mod == 1:
             # Compute normalized histograms for mod and obs
@@ -57,8 +59,7 @@ def cost_function(obs, mod):
             # Interpolate both histograms
             obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
             mod_interp = np.interp(mod_bins[:-1], mod_bins[:-1], mod_hist)
-            
-            bins = obs_bins
+        
         else:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, bins=10, range=(min_obs, max_obs), density=True)
@@ -72,54 +73,62 @@ def cost_function(obs, mod):
             obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
             mod_interp = np.interp(mod_bins[:-1], mod_bins[:-1], mod_hist)
             
-            bins = obs_bins
+        bins = obs_bins
+        
+        # Compute the RMSE
+        MSE = mean_squared_error(obs_interp, mod_interp)
+        RMSE = math.sqrt(MSE)
+        
+        cost = RMSE
     
-    else:
+    else: # Total lipids
         
         if dim_mod == 1:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, 
-                                              bins=30,
+                                              bins=10,
                                               #bins=int(range_obs/100), 
                                               range=(min_obs, max_obs), 
                                               density=True)
             mod_hist, mod_bins = np.histogram(mod.clip(min=min_obs, max=max_obs), 
-                                              bins=30,
+                                              bins=10,
                                               #bins=int(range_obs/0.2), 
                                               range=(min_obs, max_obs), 
                                               density=True)
             
-            # Interpolate both histograms
-            obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
-            mod_interp = np.interp(mod_bins[:-1], mod_bins[:-1], mod_hist)
-            
-            bins = obs_bins
-            
         else:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, 
-                                              bins=30,
+                                              bins=10,
                                               #bins=int(range_obs/100), 
                                               range=(min_obs, max_obs), 
                                               density=True)
             mod_hist, mod_bins = np.histogram(np.clip(mod[:,0],a_min=min_obs, a_max=max_obs), 
-                                              bins=30,
+                                              bins=10,
                                               #bins=int(range_obs/0.2), 
                                               range=(min_obs, max_obs), 
                                               density=True,
                                               weights=mod[:,1])
             
-            # Interpolate both histograms
-            obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
-            mod_interp = np.interp(mod_bins[:-1], mod_bins[:-1], mod_hist)
+        # Interpolate both histograms
+        obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
+        mod_interp = np.interp(mod_bins[:-1], mod_bins[:-1], mod_hist)
             
-            bins = obs_bins
+        bins = obs_bins
     
-    # Compute the RMSE
-    MSE = mean_squared_error(obs_interp, mod_interp)
-    RMSE = math.sqrt(MSE)
-    
-    cost = RMSE
+        # Compute the RMSE
+        MSE = mean_squared_error(obs_interp, mod_interp)
+        RMSE = math.sqrt(MSE)
+
+        min_mod = np.nanmin(mod)
+        max_mod = np.nanmax(mod)
+        
+        if (min_mod < min_obs) or (max_mod > max_obs):
+            cost = RMSE * 3000
+            
+        else:
+            cost = RMSE * 1000
+        
     
     return cost, obs_interp, mod_interp, bins
 
