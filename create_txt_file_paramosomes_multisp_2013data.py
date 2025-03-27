@@ -30,8 +30,8 @@ def params_file(number, storage_path, output_name):
     # Create the paramosomes
     param_bounds = {
         'I0': (0.3, 0.5),
-        'Ks': (0.3, 1.5),
-        'maxReserveFrac': (0.5, 1),
+        'Ks': (0.5, 1.5),
+        'maxReserveFrac': (0.6, 1),
         'rm': (0.05, 0.25),
         'tdia_exit': (30, 165),
         'tdia_enter': (180, 365)
@@ -51,8 +51,8 @@ def params_file(number, storage_path, output_name):
 
             for paramosome in param_values_list:
                 
-                paramosome['species'] = species_item
                 paramosome['u0'] = dev_rate_item
+                paramosome['species'] = species_item
                 
                 line = ",".join(str(paramosome[key]) for key in paramosome.keys())
                 fichier.write(line + "\n")
