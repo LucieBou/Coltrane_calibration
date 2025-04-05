@@ -34,8 +34,7 @@ def params_file(number, storage_path, output_name):
         'maxReserveFrac': (0.6, 1),
         'rm': (0.05, 0.25),
         'tdia_exit': (30, 165),
-        'tdia_enter': (180, 365),
-        'u0': (0.005, 0.007)
+        'tdia_enter': (180, 365)
     }
     
     param_sets = latin_hypercube_sampling(number, param_bounds)
@@ -44,13 +43,15 @@ def params_file(number, storage_path, output_name):
     # Replicate the parameters list as many times as there are species to calibrate
     
     species = ['Calanus glacialis', 'Calanus hyperboreus']
+    dev_rates = [0.007, 0.006]
     
     with open(f"{storage_path}/{output_name}", "w") as fichier:
         
-        for species_item in species:
+        for species_item, dev_rate_item in zip(species, dev_rates):
 
             for paramosome in param_values_list:
                 
+                paramosome['u0'] = dev_rate_item
                 paramosome['species'] = species_item
                 paramosome['satversion'] = 'default'
                 

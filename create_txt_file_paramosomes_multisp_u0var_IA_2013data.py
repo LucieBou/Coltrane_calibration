@@ -52,7 +52,7 @@ def params_file(number, storage_path, output_name):
             for paramosome in param_values_list:
                 
                 paramosome['species'] = species_item
-                paramosome['satversion'] = 'default'
+                paramosome['satversion'] = 'NOW_icealg'
                 
                 line = ",".join(str(paramosome[key]) for key in paramosome.keys())
                 fichier.write(line + "\n")
