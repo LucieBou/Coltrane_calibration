@@ -11,7 +11,7 @@
 #SBATCH --mail-user=lucie.bourreau.1@ulaval.ca
 #SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=32
+#SBATCH --cpus-per-task=37
 #SBATCH --mem-per-cpu=20G
 #SBATCH -o slurm-mem-%j.out
 #SBATCH -e slurm-mem-%j.err
