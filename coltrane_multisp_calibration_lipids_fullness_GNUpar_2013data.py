@@ -76,7 +76,12 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
 
     ## Load the observations to compare with Coltrane
     obs_all = pd.read_csv(f"{file_path}/{obs_data}")
-    obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False)]
+    #obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False)]
+    
+    obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False) & 
+                          obs_all['object_annotation_category'].str.contains("cvstage", case=False, na=False)
+                          ]
+    
     obs = obs_species[['total_lipids_ugC', 'fullness_ratio_carbon_volume']]
 
     ## Parameters
@@ -129,6 +134,6 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
 if __name__ == '__main__':
     print('Enter inside optimisation')
     # To test
-    #run_calibration(0.3548, 0.8686, 0.6860, 0.05, 80, 250,"Calanus glacialis", 0.007, "now_icealg", "./", "merged_LOKI2013_ecotaxa_masks_features_for_calibration.csv")
+    #run_calibration(0.3170, 0.5518, 0.8315, 0.0688, 44, 325, "Calanus hyperboreus", 0.006714538659396429, "now_icealg", "./", "merged_LOKI2013_ecotaxa_masks_features_for_calibration.csv")
     # To run with a shell file in parallel
     run_calibration(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), int(float(sys.argv[5])), int(float(sys.argv[6])), sys.argv[8], float(sys.argv[7]), sys.argv[9], sys.argv[10], sys.argv[11])
