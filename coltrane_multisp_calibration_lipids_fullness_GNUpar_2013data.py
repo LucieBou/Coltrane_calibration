@@ -79,7 +79,7 @@ def run_calibration(I0, Ks, maxReserveFrac, rm, tdia_exit, tdia_enter, species, 
     #obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False)]
     
     obs_species = obs_all[obs_all['object_annotation_category'].str.contains(species, case=False, na=False) & 
-                          obs_all['object_annotation_category'].str.contains("cvstage", case=False, na=False)
+                          obs_all['object_annotation_category'].str.contains("female", case=False, na=False)
                           ]
     
     obs = obs_species[['total_lipids_ugC', 'fullness_ratio_carbon_volume']]
