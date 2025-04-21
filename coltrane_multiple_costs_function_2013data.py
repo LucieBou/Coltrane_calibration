@@ -16,9 +16,9 @@ sys.path.append('./model')
 
 from coltrane_params import coltrane_params
 from coltrane_population import coltrane_population
-#from select_C4_C6_august_repro import select_C4_C6_august_repro
+from select_C4_C6_august_repro import select_C4_C6_august_repro
 #from select_C5_august_repro import select_C5_august_repro
-from select_C6_august_repro import select_C6_august_repro
+#from select_C6_august_repro import select_C6_august_repro
 from cost_function import cost_function
 
 import numpy as np
@@ -52,7 +52,7 @@ def coltrane_cost_function(params, forcing, obs):
     #### Compute the RMSE between the model and the observations depending on the context
        
     ## Select the adults in August that have reproduced
-    select_popts, select_pop = select_C6_august_repro(popts, pop)
+    select_popts, select_pop = select_C4_C6_august_repro(popts, pop)
     unique = np.unique(select_pop['mask'], return_counts=False)
         
     if 2 in unique: # The run gave adults in august that have reproduced
