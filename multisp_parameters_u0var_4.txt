@@ -1,0 +1,4 @@
+0.3170,0.5518,0.2,0.8315,0.0688,44,325,0.0067,Calanus glacialis,default
+0.3548,0.8686,0.2,0.6860,0.0099,60,300,0.007,Calanus glacialis,default
+0.3548,0.8686,0.2,0.6860,0.0099,60,300,0.004,Calanus glacialis,default
+0.3548,0.8686,0.2,0.6860,0.0099,60,300,0.005,Calanus glacialis,default
