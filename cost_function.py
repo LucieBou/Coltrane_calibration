@@ -63,11 +63,21 @@ def cost_function(obs, mod):
         else:
             # Compute normalized histograms for mod and obs
             obs_hist, obs_bins = np.histogram(obs, bins=10, range=(min_obs, max_obs), density=True)
-            mod_hist, mod_bins = np.histogram(np.clip(mod[:,0],a_min=min_obs, a_max=max_obs), 
+            
+            if np.sum(mod[:,1]) > 0:
+                 mod_hist, mod_bins = np.histogram(np.clip(mod[:,0],a_min=min_obs, a_max=max_obs), 
                                               bins=10, 
                                               range=(min_obs, max_obs), 
                                               density=True, 
                                               weights=mod[:,1])
+                 
+            else:
+                obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
+                bins = obs_bins
+                mod_interp = np.full(10, np.nan)
+                cost=np.nan
+                
+                return cost, obs_interp, mod_interp, bins
             
             # Interpolate both histograms
             obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
@@ -103,12 +113,21 @@ def cost_function(obs, mod):
                                               #bins=int(range_obs/100), 
                                               range=(min_obs, max_obs), 
                                               density=True)
-            mod_hist, mod_bins = np.histogram(np.clip(mod[:,0],a_min=min_obs, a_max=max_obs), 
-                                              bins=10,
-                                              #bins=int(range_obs/0.2), 
-                                              range=(min_obs, max_obs), 
-                                              density=True,
-                                              weights=mod[:,1])
+            
+            if np.sum(mod[:,1]) > 0:
+                mod_hist, mod_bins = np.histogram(np.clip(mod[:,0],a_min=min_obs, a_max=max_obs), 
+                                                bins=10,
+                                                #bins=int(range_obs/0.2), 
+                                                range=(min_obs, max_obs), 
+                                                density=True,
+                                                weights=mod[:,1])
+            else:
+                obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
+                bins = obs_bins
+                mod_interp = np.full(10, np.nan)
+                cost=np.nan
+                
+                return cost, obs_interp, mod_interp, bins
             
         # Interpolate both histograms
         obs_interp = np.interp(obs_bins[:-1], obs_bins[:-1], obs_hist)
