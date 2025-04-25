@@ -227,7 +227,7 @@ def run_coltrane_save_outputs(I0, Ks, KsIA, maxReserveFrac, rm, tdia_exit, tdia_
     ### Save outputs into a file
     
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f') # The name of the folder will contain the time
-    file_path = f'{folder_path}/coltrane_outputs_for_calibration_I0{np.round(params['I0'],3)}_{timestamp}.pkl'
+    file_path = f'{folder_path}/coltrane_outputs_for_params_explo_{timestamp}.pkl'
 
     with open(file_path, 'wb') as file:
         pickle.dump(outputs, file)
