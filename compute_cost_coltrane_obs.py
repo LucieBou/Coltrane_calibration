@@ -13,6 +13,7 @@ sys.path.append('./model')
 
 from cost_function import cost_function
 
+import uuid
 import pandas as pd
 import numpy as np
 import time
@@ -173,9 +174,10 @@ def run_cost_function(stages, months, folder_path_calibration, file_model_output
     print("\nRunning time (sec):", round(running_time, 2))
     
     outputs['running_time'] = running_time
-
+    
+    unique_id = uuid.uuid4().hex[:8]
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f') # The name of the folder will contain the time
-    file_path = f'{folder_path_calibration}/{folder_name_store_outputs}/coltrane_multisp_lipids_fullness_calibration_{timestamp}.pkl'
+    file_path = f'{folder_path_calibration}/{folder_name_store_outputs}/coltrane_multisp_lipids_fullness_calibration_{timestamp}_{unique_id}.pkl'
 
     with open(file_path, 'wb') as file:
         pickle.dump(outputs, file)
