@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Coltrane lipids and fullness multisp calibration - GNU Parallel
+Compute RMSE cost for each stage and month.
 
 @author: Lucie Bourreau
-@date: 2024/05/13
+@date: 2025/04
 """
 
 import sys
 
 sys.path.append('./model')
 
-from cost_function import cost_function
+from RMSE_cost_function import cost_function
 
 import uuid
 import pandas as pd
@@ -24,7 +24,7 @@ def day_to_month(yday_array):
     """from yearday (1–365*n) to month (1–12)"""
     base_date = datetime(2000, 1, 1)  # random year
     return np.array([
-        (base_date + timedelta(days=int(d) - 1)).month
+        (base_date + timedelta(days=int(d))).month
         for d in yday_array
     ])
 

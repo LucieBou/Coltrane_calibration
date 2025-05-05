@@ -30,15 +30,7 @@ def merge_pickle_files(input_files_path, output_file_path, output_file_name):
 
     """
     # List to store combined data
-    combined_data = {'cost': [], 
-                     'params': [],
-                     'mod_interp': [],
-                     'obs_interp': [],
-                     'bins': [],
-                     'running_time': [],
-                     'mask': [],
-                     'species': []
-                     }
+    combined_data = None
 
     # Iterate over files in the folder
     for file_name in os.listdir(input_files_path):
@@ -47,8 +39,17 @@ def merge_pickle_files(input_files_path, output_file_path, output_file_name):
             # Read the pickle file and add its content to the combined data dict
             with open(file_path, "rb") as f:
                 file_data = pickle.load(f)
-                for key, value in file_data.items():
-                    combined_data[key].append(value)
+                
+                if combined_data is None:
+                    # Initialize combined_data with the keys of the first file
+                    combined_data = {key: [value] for key, value in file_data.items()}
+                else:
+                    for key in file_data:
+                        if key in combined_data:
+                            combined_data[key].append(file_data[key])
+                        else:
+                            # New key not seen before, we add it
+                            combined_data[key] = [file_data[key]]
                 
 
     # Path to the output pickle file

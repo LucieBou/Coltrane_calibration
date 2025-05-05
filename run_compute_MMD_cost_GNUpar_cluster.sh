@@ -39,7 +39,7 @@ months=(8)
 folder_path_model_outputs="/project/6001619/lucieb/Coltrane_calibration/coltrane_outputs_sim1"
 folder_path_calibration="./"
 file_obs_data="merged_LOKI2013_ecotaxa_masks_features_for_calibration.csv"
-folder_name_store_outputs="costs_sim1"
+folder_name_store_outputs="MMD_costs_sim1"
 
 # Separate array items with a comma
 stages_str=$(IFS=, ; echo "${stages[*]}")
@@ -51,10 +51,10 @@ find "$folder_path_model_outputs" -type f -name "*.pkl" > model_output_files_sim
 # Launch run jobs
 
 parallel -j $SLURM_CPUS_PER_TASK \
-    python compute_cost_coltrane_obs.py "$stages_str" "$months_str" "$folder_path_calibration" {1} "$file_obs_data" "$folder_name_store_outputs" \
+    python compute_MMD_cost.py "$stages_str" "$months_str" "$folder_path_calibration" {1} "$file_obs_data" "$folder_name_store_outputs" "5" \
     :::: model_output_files_sim1.txt
 
 # Merge pickle files into one
-python -u merge_pickle_files.py "$folder_path_calibration$folder_name_store_outputs" "$folder_path_calibration" "merged_costs_files_2013data_u0fix_8000sets.pkl"
+python -u merge_pickle_files.py "$folder_path_calibration$folder_name_store_outputs" "$folder_path_calibration" "merged_MMD_costs_gam5_files_2013data_u0fix_8000sets.pkl"
 
 echo "Task done"
