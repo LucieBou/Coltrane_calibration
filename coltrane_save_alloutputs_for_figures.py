@@ -16,7 +16,6 @@ sys.path.append('./model')
 from coltrane_params import coltrane_params
 from coltrane_forcing import coltrane_forcing
 from coltrane_population import coltrane_population
-from select_C4_C6_ind_repro import select_C4_C6_repro
 
 import numpy as np
 import pickle
@@ -53,19 +52,30 @@ def run_coltrane_save_outputs(u0, I0, Ks, KsIA, maxReserveFrac, rm, preySatVersi
         'KsIA': KsIA,
         'maxReserveFrac': maxReserveFrac,
         'rm': rm,
-        'tdia_exit': list(range(30, 130, 15)),
-        'tdia_enter': list(range(250, 365, 15)),
+        'tdia_exit': list(range(30, 130, 30)),
+        'tdia_enter': list(range(250, 365, 30)),
         'preySatVersion': preySatVersion,
         'min_genlength_years': 1,
         'max_genlength_years': 3,
-        'dt_spawn': 15,
+        'dt_spawn': 30,
     }
     
     p = coltrane_params(**params)
     
     ## Run Coltrane to create a population and keep the time serie
-    pop, popts = coltrane_population(forcing, p, 2)
+    print("[DEBUG] Running Coltrane with:")
+    print("Params:", params)
+
+    try:
+        pop, popts = coltrane_population(forcing, p, 2)
+    except Exception as e:
+        print("ERROR during coltrane_population:", e)
+        sys.exit(1)
+
+    #pop, popts = coltrane_population(forcing, p, 2)
     
+    print("Run finish start to save")
+
     pop_file_path = f'{folder_path}/coltrane_outputs_{species}_{scenario}_{unique_id}_pop.pkl'
     popts_file_path = f'{folder_path}/coltrane_outputs_{species}_{scenario}_{unique_id}_popts.pkl'
 
@@ -76,6 +86,9 @@ def run_coltrane_save_outputs(u0, I0, Ks, KsIA, maxReserveFrac, rm, preySatVersi
         pickle.dump(popts, file)
 
 if __name__ == '__main__':
-    print('Save Coltrane outputs')
-
+    
+    print("[DEBUG] Script started with args:", sys.argv)
+    
     run_coltrane_save_outputs(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10], sys.argv[11])
+
+    print("Coltrane outputs saved")
