@@ -12,7 +12,7 @@ import sys
 
 from select_C4_C6_ind_repro import select_C4_C6_repro
 
-
+import gc
 import os
 import pickle
 import pandas as pd
@@ -46,14 +46,15 @@ def run_summary_sp_scenario_for_figures(path_params_df, path_coltrane_outputs, p
 
     # Fichiers et dossiers
     params_df = pd.read_csv(path_params_df)
-    
+
     # Initialiser dictionnaire de listes par (species, scenario)
-    lists = {(sp, sc): [] for sp in ['hyperboreus', 'glacialis'] for sc in ['IA', 'noIA']}
+    #lists = {(sp, sc): [] for sp in ['hyperboreus', 'glacialis'] for sc in ['IA', 'noIA']}
     
     # Lister tous les fichiers pop.pkl
     files = [f for f in os.listdir(path_coltrane_outputs) if f.endswith('_pop.pkl')]
     
     for f in files:
+        print(f"file:{f}")
         base = f.replace('_pop.pkl', '')
         pop_path = os.path.join(path_coltrane_outputs, f)
         popts_path = os.path.join(path_coltrane_outputs, f"{base}_popts.pkl")
@@ -61,7 +62,7 @@ def run_summary_sp_scenario_for_figures(path_params_df, path_coltrane_outputs, p
     
         _, _, species, scenario, sid = base.split('_')
         sid = int(sid)
-    
+
         # Trouver les bons paramètres
         row = params_df[(params_df['species'] == species) &
                         (params_df['scenario'] == scenario) &
@@ -122,6 +123,9 @@ def run_summary_sp_scenario_for_figures(path_params_df, path_coltrane_outputs, p
         
         # Construire le dictionnaire
         d = {
+            'species': species,
+            'scenario': scenario,
+            'id': sid,
             'params': row[['u0', 'I0', 'Ks', 'KsIA', 'maxReserveFrac', 'rm', 'preySatVersion']].to_dict(),
             'cost': row['cost'],
             'females_august': females_august,
@@ -129,14 +133,16 @@ def run_summary_sp_scenario_for_figures(path_params_df, path_coltrane_outputs, p
         }
     
         # Ajouter à la bonne liste
-        key = (species, scenario)
-        lists[key].append(d)
+        #key = (species, scenario)
+        #lists[key].append(d)
     
         # Sauvegarde immédiate
         with open(os.path.join(path_save_dir, f"summary_{species}_{scenario}.pkl"), 'wb') as f:
-            pickle.dump(lists[key], f)
-            
+            #pickle.dump(lists[key], f)
+            pickle.dump(d, f)
+
         del pop, popts
+        #gc.collect()
 
 
 if __name__ == '__main__':
